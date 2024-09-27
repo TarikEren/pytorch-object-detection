@@ -23,12 +23,12 @@ test_transform = torchvision.transforms.Compose(transforms=[
     torchvision.transforms.ToTensor(),
 ])
 
+model_weights = torchvision.models.detection.FasterRCNN_ResNet50_FPN_V2_Weights.DEFAULT
+model = torchvision.models.detection.fasterrcnn_resnet50_fpn_v2(weights=model_weights)
 
 def main():
     # TODO: Make the user provide the path using args.    
-    path_to_coco: Path = Path("../datasets/cup_dataset/coco.json") # Temporary
-    ann_dict = coco_to_dict(path_to_coco=path_to_coco)
-    ann_dict.to_csv("out.csv")
+    print(device, model)
     
 # Main function caller
 if __name__ == "__main__":
