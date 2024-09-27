@@ -28,6 +28,8 @@ def coco_to_dict(path_to_coco: Path) -> pd.DataFrame:
     coco: COCO = COCO(path_to_coco)
     dataframe = pd.DataFrame()
     temp_bbox_list = []
+    temp_class_list = []
+    class_list = []
     bbox_list = []
     img_names = []
     for annotation_index in tqdm(coco.imgToAnns, "Parsing annotations"):
@@ -37,10 +39,14 @@ def coco_to_dict(path_to_coco: Path) -> pd.DataFrame:
         img_names.append(img_name)
         for i in range(len(annotation)):
             temp_bbox_list.append(annotation[i]["bbox"])
+            temp_class_list.append(annotation[i]["category_id"])
         bbox_list.append(temp_bbox_list.copy())
+        class_list.append(temp_class_list.copy())
         temp_bbox_list.clear()
+        temp_class_list.clear()
         
     print(len(img_names), len(bbox_list))
     dataframe["file_names"] = img_names
-    dataframe["box_coordinates"] = (bbox_list)
+    dataframe["box_coordinates"] = bbox_list
+    dataframe["classes"] = class_list
     return dataframe
